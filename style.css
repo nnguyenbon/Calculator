@@ -1,0 +1,49 @@
+.container {
+    margin: 5% 25%;
+    border: 1px solid black;
+    padding: 10px 10px;
+}
+
+.calculator {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: white;
+}
+
+button {
+    width: 24%;
+    margin: 10px 0px;
+    padding: 20px 0px;
+    border: none;
+    border-radius: 2px;
+    background-color: black;
+    color: white;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: rgb(66, 66, 66);
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 200%;
+    font-weight: bold;
+    text-align: end;
+}
+
+.equal {
+    width: 49%;
+}
+
+.operator-btn {
+    background-color: rgb(218, 147, 15);
+}
+
+.operator-btn:hover {
+    background-color: rgb(245, 170, 32);
+}
