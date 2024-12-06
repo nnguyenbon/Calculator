@@ -11,23 +11,25 @@ function display(num) {
 
 function calculate() {
     try {
-        const validExpression = /^[0-9+\-*/().\s]*$/;
         const input = outputScreen.value.trim();
 
-        if (!validExpression.test(input)) {
-            throw new Error("Invalid characters in expression");
+        if (!/^[\d+\-*/().\s]+$/.test(input)) {
+            throw new Error("Invalid characters");
         }
 
         if (/^-\d+$/.test(input)) {
             throw new Error("Incomplete expression");
         }
 
-        const hasOperator = /[+\-*/]/.test(input);
-        if (!hasOperator) {
+        if (!/[+\-*/]/.test(input)) {
             throw new Error("Expression must contain an operator");
         }
 
         const result = new Function(`return ${outputScreen.value}`)();
+
+        if (result === Infinity || result === -Infinity || isNaN(result)) {
+            throw new Error("Mathematical error");
+        }
 
         if (result.toString().length > MAX_LENGTH) {
             alert("Screen limit!");
@@ -77,4 +79,8 @@ function addHistory(expression, result) {
 
     historyItem.textContent = `${expression} = ${result}`;
     historyList.appendChild(historyItem);
+
+    if (historyList.children.length > 10) {
+        historyList.removeChild(historyList.firstElementChild);
+    }
 }
