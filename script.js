@@ -13,16 +13,16 @@ function calculate() {
     try {
         const input = outputScreen.value.trim();
 
-        if (!/^[\d+\-*/().\s]+$/.test(input)) {
+        if (!/^[\d+\-*/().\s%]+$/.test(input)) {
             throw new Error("Invalid characters");
         }
 
-        if (/^-\d+$/.test(input)) {
-            throw new Error("Incomplete expression");
-        }
+        const processedInput = input.replace(/(\d+(\.\d+)?)%/g, "($1*0.01)");
 
-        if (!/[+\-*/]/.test(input)) {
-            throw new Error("Expression must contain an operator");
+        if (/^\d+(\.\d+)?%$/.test(input)) {
+            const singleResult = new Function(`return ${processedInput}`)();
+            outputScreen.value = parseFloat(singleResult.toFixed(10));
+            return;
         }
 
         const result = new Function(`return ${outputScreen.value}`)();
@@ -56,7 +56,7 @@ function Delete() {
 document.addEventListener("keydown", (event) => {
     const key = event.key;
 
-    if (/[0-9+\-*/().]/.test(key)) {
+    if (/[0-9+\-*/%().]/.test(key)) {
         display(key);
     }
 
