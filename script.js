@@ -18,6 +18,15 @@ function calculate() {
             throw new Error("Invalid characters in expression");
         }
 
+        if (/^-\d+$/.test(input)) {
+            throw new Error("Incomplete expression");
+        }
+
+        const hasOperator = /[+\-*/]/.test(input);
+        if (!hasOperator) {
+            throw new Error("Expression must contain an operator");
+        }
+
         const result = new Function(`return ${outputScreen.value}`)();
 
         if (result.toString().length > MAX_LENGTH) {
@@ -25,9 +34,10 @@ function calculate() {
             outputScreen.value = "";
         } else {
             outputScreen.value = parseFloat(result.toFixed(10));
+            addHistory(input, outputScreen.value);
         }
     } catch (err) {
-        alert("Invalid Expression");
+        alert(err.message || "Invalid Expression");
         outputScreen.value = "";
     }
 }
@@ -38,7 +48,7 @@ function Clear() {
 
 function Delete() {
     str = outputScreen.value;
-    outputScreen.value = str.substring(0, -1);
+    outputScreen.value = str.substring(0, str.length - 1);
 }
 
 document.addEventListener("keydown", (event) => {
@@ -56,7 +66,15 @@ document.addEventListener("keydown", (event) => {
         Delete();
     }
 
-    if (key === "Escape") {
+    if (key === "Delete") {
         Clear();
     }
 });
+
+function addHistory(expression, result) {
+    const historyList = document.getElementById("history-list");
+    const historyItem = document.createElement("li");
+
+    historyItem.textContent = `${expression} = ${result}`;
+    historyList.appendChild(historyItem);
+}
