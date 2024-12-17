@@ -36,7 +36,7 @@ function calculate() {
             outputScreen.value = "";
         } else {
             outputScreen.value = parseFloat(result.toFixed(10));
-            addHistory(input, outputScreen.value);
+            addHistory(input, parseFloat(result.toFixed(10)).toLocaleString('en-US'));
         }
     } catch (err) {
         alert(err.message || "Invalid Expression");
